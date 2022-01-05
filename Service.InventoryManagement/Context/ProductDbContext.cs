@@ -18,7 +18,7 @@ namespace Product.Service.Context
         {
         }
         //entities
-        public DbSet<Product> Products { get; set; }
+//        public DbSet<Product> Products { get; set; }
 
     }
 }
