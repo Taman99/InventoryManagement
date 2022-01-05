@@ -1,4 +1,5 @@
 using Category.Service.Context;
+using Category.Service.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ var service = builder.Services;
 
 service.AddControllers();
 service.AddDbContext<CategoryContext>(option => option.UseSqlServer(config.GetConnectionString("conStr")));
+service.AddScoped<ICategoryRepository,CategoryRepository>();
 service.AddEndpointsApiExplorer();
 service.AddSwaggerGen();
 

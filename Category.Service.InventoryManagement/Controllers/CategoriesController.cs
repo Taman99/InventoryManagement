@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Category.Service.Context;
 using Category.Service.Entities;
+using Category.Service.Repository;
 
 namespace Category.Service.Controllers
 {
@@ -15,11 +16,11 @@ namespace Category.Service.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly CategoryContext _context;
+        private readonly ICategoryRepository _repo;
 
-        public CategoriesController(CategoryContext context)
+        public CategoriesController(ICategoryRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         // GET: api/Categories
@@ -28,9 +29,10 @@ namespace Category.Service.Controllers
         /// </summary>
         /// <returns>List of categories</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TblCategory>>> GetCategories()
+        public  ActionResult<IEnumerable<TblCategory>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            var categories = _repo.GetCategories();
+            return Ok(categories);
         }
 
         // GET: api/Categories/5
@@ -39,17 +41,17 @@ namespace Category.Service.Controllers
         /// </summary>
         /// <param name="id">category id</param>
         /// <returns>Category</returns>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TblCategory>> GetTblCategory(int id)
+        [HttpGet("{categoryId}")]
+        public ActionResult<TblCategory> GetTblCategory(int categoryId)
         {
-            var tblCategory = await _context.Categories.FindAsync(id);
-
-            if (tblCategory == null)
+            try { 
+            var category = _repo.GetCategoriesById(categoryId);
+                return category;
+            }
+            catch(Exception)
             {
                 return NotFound();
-            }
-
-            return tblCategory;
+            }        
         }
 
         // PUT: api/Categories/5
@@ -59,23 +61,22 @@ namespace Category.Service.Controllers
         /// <param name="id">category id</param>
         /// <param name="tblCategory"> Category object</param>
         /// <returns> status code </returns>
-       [HttpPut("{id}")]
-        public async Task<IActionResult> PutTblCategory(int id, TblCategory tblCategory)
+        [HttpPut("{categoryId}")]
+        public IActionResult PutTblCategory(int categoryId, TblCategory category)
         {
-            if (id != tblCategory.CategoryId)
+            if (categoryId != category.CategoryId)
             {
                 return BadRequest();
-            }
-
-            _context.Entry(tblCategory).State = EntityState.Modified;
+            }          
 
             try
             {
-                await _context.SaveChangesAsync();
+                var IsUpdated = _repo.UpdateCategory(category);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                if (!TblCategoryExists(id))
+                Console.WriteLine("Error while Updating : " + e.Message);
+                if (!CategoryExists(categoryId))
                 {
                     return NotFound();
                 }
@@ -95,12 +96,24 @@ namespace Category.Service.Controllers
         /// <param name="tblCategory"> Category object</param>
         /// <returns> Category object </returns>
         [HttpPost]
-        public async Task<ActionResult<TblCategory>> PostTblCategory(TblCategory tblCategory)
+        public ActionResult<TblCategory> PostTblCategory(TblCategory category)
         {
-            _context.Categories.Add(tblCategory);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var isCreated = _repo.CreateCategory(category);
 
-            return CreatedAtAction("GetTblCategory", new { id = tblCategory.CategoryId }, tblCategory);
+                if (isCreated)
+                {
+                    return CreatedAtAction("GetTblCategory", new { categoryId = category.CategoryId }, category);
+                }
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while creating : " + e.Message);
+                return BadRequest();
+            }
+           
         }
 
         // DELETE: api/Categories/5
@@ -109,24 +122,22 @@ namespace Category.Service.Controllers
         /// </summary>
         /// <param name="id"> category id </param>
         /// <returns> status code   </returns>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTblCategory(int id)
+        [HttpDelete("{categoryId}")]
+        public IActionResult DeleteTblCategory(int categoryId)
         {
-            var tblCategory = await _context.Categories.FindAsync(id);
-            if (tblCategory == null)
+            var isDeleted = _repo.DeleteCategory(categoryId);
+            if (!isDeleted)
             {
                 return NotFound();
             }
 
-            _context.Categories.Remove(tblCategory);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool TblCategoryExists(int id)
+        private bool CategoryExists(int categoryId)
         {
-            return _context.Categories.Any(e => e.CategoryId == id);
+            var exists = _repo.CategoryExists(categoryId);
+            return exists;
         }
     }
 }
