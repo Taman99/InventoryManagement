@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Category.Service.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Category.Service.EF
+
+namespace Category.Service.Context
+
 {
     public partial class CategoryContext : DbContext
     {
@@ -18,13 +20,13 @@ namespace Category.Service.EF
 
         public virtual DbSet<TblCategory> Categories { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-               optionsBuilder.UseSqlServer("server=.\\SqlExpress;Trusted_Connection=True;Database=Category");
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //       optionsBuilder.UseSqlServer("server=.\\SqlExpress;Trusted_Connection=True;Database=Category");
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

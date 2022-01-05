@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Category.Service.EF
+namespace Category.Service.Entities
 {
     public partial class TblCategory
     {
