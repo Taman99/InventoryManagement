@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+//CategoryDbContext
+
 namespace Category.Service.Context
 {
     public class CategoryDbContext : DbContext
