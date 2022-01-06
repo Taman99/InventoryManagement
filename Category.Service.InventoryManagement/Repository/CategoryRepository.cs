@@ -1,27 +1,27 @@
-﻿using Category.Service.Context;
-using Category.Service.Entities;
+﻿using CategoryService.Context;
+using CategoryService.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Category.Service.Repository
+namespace CategoryService.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly CategoryContext _context;
+        private readonly InventoryManagementContext _context;
 
-        public CategoryRepository(CategoryContext context)
+        public CategoryRepository(InventoryManagementContext context)
         {
             _context = context;
         }
 
         // Get categories from DB
-        public IEnumerable<TblCategory> GetCategories()
+        public IEnumerable<Category> GetCategories()
         {
             var categories =  _context.Categories.ToList();
             return categories;
         }
 
         // Get category by id from DB
-        public TblCategory GetCategoriesById( int categoryId)
+        public Category GetCategoriesById( int categoryId)
         {
             var category = _context.Categories.FirstOrDefault(category => category.CategoryId == categoryId);
             if (category != null)
@@ -32,14 +32,14 @@ namespace Category.Service.Repository
         }
 
         // Create new category in DB
-        public bool CreateCategory(TblCategory category)
+        public bool CreateCategory(Category category)
         {
             _context.Categories.Add(category);
             return Commit();
         }
 
         // Update category in DB
-        public bool UpdateCategory(TblCategory category)
+        public bool UpdateCategory(Category category)
         {
             _context.Entry(category).State = EntityState.Modified;
             return Commit();

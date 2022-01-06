@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Category.Service.Context;
-using Category.Service.Entities;
-using Category.Service.Repository;
+using CategoryService.Context;
+using CategoryService.Entities;
+using CategoryService.Repository;
 
-namespace Category.Service.Controllers
+namespace CategoryService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -29,7 +29,7 @@ namespace Category.Service.Controllers
         /// </summary>
         /// <returns>List of categories</returns>
         [HttpGet]
-        public  ActionResult<IEnumerable<TblCategory>> GetCategories()
+        public  ActionResult<IEnumerable<Category>> GetCategories()
         {
             var categories = _repo.GetCategories();
             return Ok(categories);
@@ -42,7 +42,7 @@ namespace Category.Service.Controllers
         /// <param name="id">category id</param>
         /// <returns>Category</returns>
         [HttpGet("{categoryId}")]
-        public ActionResult<TblCategory> GetTblCategory(int categoryId)
+        public ActionResult<Category> GetTblCategory(int categoryId)
         {
             try { 
             var category = _repo.GetCategoriesById(categoryId);
@@ -59,10 +59,10 @@ namespace Category.Service.Controllers
         /// Update category information
         /// </summary>
         /// <param name="id">category id</param>
-        /// <param name="tblCategory"> Category object</param>
+        /// <param name="Category"> Category object</param>
         /// <returns> status code </returns>
         [HttpPut("{categoryId}")]
-        public IActionResult PutTblCategory(int categoryId, TblCategory category)
+        public IActionResult PutTblCategory(int categoryId, Category category)
         {
             if (categoryId != category.CategoryId)
             {
@@ -93,10 +93,10 @@ namespace Category.Service.Controllers
         /// <summary>
         ///  Create new category
         /// </summary>
-        /// <param name="tblCategory"> Category object</param>
+        /// <param name="Category"> Category object</param>
         /// <returns> Category object </returns>
         [HttpPost]
-        public ActionResult<TblCategory> PostTblCategory(TblCategory category)
+        public ActionResult<Category> PostTblCategory(Category category)
         {
             try
             {

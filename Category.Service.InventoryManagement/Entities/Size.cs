@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Category.Service.EF
+namespace CategoryService.Entities
 {
     public partial class Size
     {

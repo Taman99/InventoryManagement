@@ -1,15 +1,15 @@
-using Category.Service.Context;
-using Category.Service.Repository;
+using CategoryService.Context;
+using CategoryService.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var config = builder.Configuration;
-// Add services to the container.
 
+// Add services to the container.
+var config  = builder.Configuration;
 var service = builder.Services;
 
 service.AddControllers();
-service.AddDbContext<CategoryContext>(option => option.UseSqlServer(config.GetConnectionString("conStr")));
+service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
 service.AddScoped<ICategoryRepository,CategoryRepository>();
 service.AddEndpointsApiExplorer();
 service.AddSwaggerGen();
@@ -23,10 +23,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
-
-app.UseRouting();
 
 app.UseHttpsRedirection();
 

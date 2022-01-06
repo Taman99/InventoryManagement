@@ -1,16 +1,16 @@
-﻿using Category.Service.Entities;
+﻿using CategoryService.Entities;
 
-namespace Category.Service.Repository
+namespace CategoryService.Repository
 {
     public interface ICategoryRepository
     {
-        IEnumerable<TblCategory> GetCategories();
+        IEnumerable<Category> GetCategories();
 
-        TblCategory GetCategoriesById(int categoryId);
+        Category GetCategoriesById(int categoryId);
 
-        bool CreateCategory(TblCategory category);
+        bool CreateCategory(Category category);
 
-        bool UpdateCategory(TblCategory category);
+        bool UpdateCategory(Category category);
 
         bool DeleteCategory(int categoryId);
 
