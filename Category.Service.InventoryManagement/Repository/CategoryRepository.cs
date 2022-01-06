@@ -21,7 +21,7 @@ namespace CategoryService.Repository
         }
 
         // Get category by id from DB
-        public Category GetCategoriesById( int categoryId)
+        public Category GetCategoryById( int categoryId)
         {
             var category = _context.Categories.FirstOrDefault(category => category.CategoryId == categoryId);
             if (category != null)
