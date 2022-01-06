@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sizes.Service.EF
+namespace Category.Service.EF
 {
-    public partial class TblSize
+    public partial class Size
     {
         public int SizeIndex { get; set; }
-        public int? PdtId { get; set; }
-        public string? Size { get; set; }
+        public int? ProductId { get; set; }
+        public string? Size1 { get; set; }
         public decimal? SizePrice { get; set; }
     }
 }
