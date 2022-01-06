@@ -6,7 +6,7 @@ namespace CategoryService.Repository
     {
         IEnumerable<Category> GetCategories();
 
-        Category GetCategoriesById(int categoryId);
+        Category GetCategoryById(int categoryId);
 
         bool CreateCategory(Category category);
 

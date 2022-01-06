@@ -32,7 +32,7 @@ namespace CategoryService.Controllers
         public  ActionResult<IEnumerable<Category>> GetCategories()
         {
             var categories = _repo.GetCategories();
-            return Ok(categories);
+            return categories.ToList();
         }
 
         // GET: api/Categories/5
@@ -42,10 +42,10 @@ namespace CategoryService.Controllers
         /// <param name="id">category id</param>
         /// <returns>Category</returns>
         [HttpGet("{categoryId}")]
-        public ActionResult<Category> GetTblCategory(int categoryId)
+        public ActionResult<Category> GetCategoryById(int categoryId)
         {
             try { 
-            var category = _repo.GetCategoriesById(categoryId);
+            var category = _repo.GetCategoryById(categoryId);
                 return category;
             }
             catch(Exception)
