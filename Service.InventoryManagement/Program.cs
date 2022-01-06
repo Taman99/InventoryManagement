@@ -1,10 +1,19 @@
+using ProductService.Context;
+using ProductService.Repository;
+using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var service = builder.Services;
+var config = builder.Configuration;
 
     service.AddControllers();
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
+    service.AddScoped<IProductRepository,ProductRepository>();
+
     service.AddEndpointsApiExplorer();
     service.AddSwaggerGen();
 

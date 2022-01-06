@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using ProductService.Entities;
 
-namespace Product.Service.EF
+namespace ProductService.Context
 {
     public partial class InventoryManagementContext : DbContext
     {
