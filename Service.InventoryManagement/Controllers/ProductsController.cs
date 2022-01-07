@@ -20,7 +20,7 @@ namespace ProductService.Controllers
 
         public ProductsController(IProductRepository repo)
         {
-            _repo=repo;
+            _repo = repo;
         }
 
         // GET: api/Products
@@ -44,7 +44,7 @@ namespace ProductService.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         // PUT: api/Products/5
@@ -55,7 +55,7 @@ namespace ProductService.Controllers
             if (productId != product.ProductId)
             {
                 return BadRequest();
-            }          
+            }
 
             try
             {
@@ -106,7 +106,7 @@ namespace ProductService.Controllers
             if (!isDeleted)
             {
                 return NotFound();
-            }           
+            }
 
             return NoContent();
         }

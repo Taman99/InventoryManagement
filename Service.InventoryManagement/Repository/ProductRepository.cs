@@ -13,14 +13,14 @@ namespace ProductService.Repository
             _context = context;
         }
 
-        
+
         public IEnumerable<Product> GetProducts()
         {
             var products = _context.Products.ToList();
             return products;
         }
 
-        
+
         public bool CreateProduct(Product product)
         {
             _context.Products.Add(product);
@@ -46,9 +46,9 @@ namespace ProductService.Repository
             else
             {
                 throw new NullReferenceException();
-            }            
+            }
         }
-        
+
         public bool ProductExists(int productId)
         {
             return _context.Products.Any(product => product.ProductId == productId);
