@@ -1,4 +1,4 @@
-﻿#nullable disable
+﻿    #nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,7 +105,7 @@ namespace CategoryService.Controllers
 
                 if (isCreated)
                 {
-                    return CreatedAtAction("GetTblCategory", new { categoryId = category.CategoryId }, category);
+                    return CreatedAtAction("GetCategoryById", new { categoryId = category.CategoryId }, category);
                 }
                 return BadRequest();
             }
