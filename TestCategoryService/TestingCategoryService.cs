@@ -24,26 +24,26 @@ namespace TestCategoryService
         {
             //Arrange
             var categories = new List<Category>() {
-                new Category() { CategoryId=1 , Category1 = "Clothing"},
-                new Category() { CategoryId=2 , Category1 = "Food"}
+                new Category() { CategoryId=1 , CategoryName = "Clothing"},
+                new Category() { CategoryId=2 , CategoryName = "Food"}
             };
 
             mockRepo.Setup(x => x.GetCategories()).Returns(categories);
             var controller = new CategoriesController(mockRepo.Object);
 
             //Act
-            var  result = controller.GetCategories();
-  
+            var result = controller.GetCategories();
+
             //Assert
-            result.Value.Should().BeEquivalentTo(categories);          
+            result.Value.Should().BeEquivalentTo(categories);
         }
 
         [Test]
         public void GetCategoryById_WithExistingCategoryId_returnsCategory()
         {
             //Arrange        
-            var category = new Category() { CategoryId = 1, Category1 = "Clothing" };
-        
+            var category = new Category() { CategoryId = 1, CategoryName = "Clothing" };
+
             mockRepo.Setup(x => x.GetCategoryById(1)).Returns(category);
             var controller = new CategoriesController(mockRepo.Object);
 
@@ -126,6 +126,7 @@ namespace TestCategoryService
             //Assert
             result.Should().BeEquivalentTo(result);
         }
+
     }
 
 }
