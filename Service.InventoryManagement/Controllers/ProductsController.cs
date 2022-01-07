@@ -32,12 +32,27 @@ namespace ProductService.Controllers
         }
 
         // GET: api/Products/5
-        [HttpGet("{productId}")]
-        public ActionResult<Product> GetProduct(int productId)
+        //[HttpGet("{productId}")]
+        //public ActionResult<Product> GetProduct(int productId)
+        //{
+        //    try
+        //    {
+        //        var product = _repo.GetProductById(productId);
+        //        return product;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //}
+
+        [HttpGet("{categoryId}")]
+        public ActionResult<Product> GetProductByCategoryId(int categoryId)
         {
             try
             {
-                var product = _repo.GetProductById(productId);
+                var product = _repo.GetProductByCategoryId(categoryId);
                 return product;
             }
             catch (Exception)
@@ -48,7 +63,7 @@ namespace ProductService.Controllers
         }
 
         // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{categoryId}")]
         public IActionResult PutProduct(int productId, Product product)
         {

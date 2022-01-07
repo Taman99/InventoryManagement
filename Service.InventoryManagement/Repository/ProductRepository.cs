@@ -1,6 +1,6 @@
-﻿using ProductService.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductService.Context;
 using ProductService.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace ProductService.Repository
 {
@@ -39,6 +39,20 @@ namespace ProductService.Repository
         public Product GetProductById(int productId)
         {
             var product = _context.Products.FirstOrDefault(product => product.ProductId == productId);
+            if (product != null)
+            {
+                return product;
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        public Product GetProductByCategoryId(int categoryId)
+            
+        {
+            var product = _context.Products.FirstOrDefault(product => product.CategoryId == categoryId);
             if (product != null)
             {
                 return product;

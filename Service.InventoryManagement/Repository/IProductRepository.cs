@@ -9,8 +9,10 @@ namespace ProductService.Repository
 
         Product GetProductById(int productId);
 
-        bool CreateProduct(Product product);
+        Product GetProductByCategoryId(int categoryId);
 
+        bool CreateProduct(Product product);
+         
         bool UpdateProduct(Product product);
 
         bool DeleteProduct(int productId);
