@@ -48,6 +48,19 @@ namespace ProductService.Repository
                 throw new NullReferenceException();
             }
         }
+        //yhello
+        //public Product GetProductByCategoryId(int categoryId)
+        //{
+        //    var product = _context.Products.FirstOrDefault(product => product.ProductId == productId);
+        //    if (product != null)
+        //    {
+        //        return product;
+        //    }
+        //    else
+        //    {
+        //        throw new NullReferenceException();
+        //    }
+        //}
 
         public bool ProductExists(int productId)
         {
