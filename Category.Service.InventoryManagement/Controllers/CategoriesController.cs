@@ -29,7 +29,7 @@ namespace CategoryService.Controllers
         /// </summary>
         /// <returns>List of categories</returns>
         [HttpGet]
-        public  ActionResult<IEnumerable<Category>> GetCategories()
+        public ActionResult<IEnumerable<Category>> GetCategories()
         {
             var categories = _repo.GetCategories();
             return categories.ToList();
@@ -44,14 +44,15 @@ namespace CategoryService.Controllers
         [HttpGet("{categoryId}")]
         public ActionResult<Category> GetCategoryById(int categoryId)
         {
-            try { 
-            var category = _repo.GetCategoryById(categoryId);
+            try
+            {
+                var category = _repo.GetCategoryById(categoryId);
                 return category;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return NotFound();
-            }        
+            }
         }
 
         // PUT: api/Categories/5
@@ -67,7 +68,7 @@ namespace CategoryService.Controllers
             if (categoryId != category.CategoryId)
             {
                 return BadRequest();
-            }          
+            }
 
             try
             {
@@ -113,7 +114,7 @@ namespace CategoryService.Controllers
                 Console.WriteLine("Error while creating : " + e.Message);
                 return BadRequest();
             }
-           
+
         }
 
         // DELETE: api/Categories/5

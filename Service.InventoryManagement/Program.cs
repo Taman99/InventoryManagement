@@ -11,10 +11,10 @@ var config = builder.Configuration;
 
     service.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
-    service.AddScoped<IProductRepository,ProductRepository>();
+service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
+service.AddScoped<IProductRepository, ProductRepository>();
 
-    service.AddEndpointsApiExplorer();
+service.AddEndpointsApiExplorer();
     service.AddSwaggerGen();
 
 // End services

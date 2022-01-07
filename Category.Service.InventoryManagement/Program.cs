@@ -10,7 +10,7 @@ var service = builder.Services;
 
 service.AddControllers();
 service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
-service.AddScoped<ICategoryRepository,CategoryRepository>();
+service.AddScoped<ICategoryRepository, CategoryRepository>();
 service.AddEndpointsApiExplorer();
 service.AddSwaggerGen();
 

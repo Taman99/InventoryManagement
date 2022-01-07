@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService", "Service.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CategoryService", "Category.Service.InventoryManagement\CategoryService.csproj", "{25B04CE3-8D08-4D7C-842F-EDD89433A9B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sizes.Service", "Sizes.Service.InventoryManagement\Sizes.Service.csproj", "{0C88D874-EE8A-47CC-9454-FEA3352C01CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SizesService", "Sizes.Service.InventoryManagement\SizesService.csproj", "{0C88D874-EE8A-47CC-9454-FEA3352C01CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCategoryService", "TestCategoryService\TestCategoryService.csproj", "{A8CC108A-B1A4-4E97-927F-291E0ED10B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCategoryService", "TestCategoryService\TestCategoryService.csproj", "{A8CC108A-B1A4-4E97-927F-291E0ED10B59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,17 +16,17 @@ namespace CategoryService.Repository
         // Get categories from DB
         public IEnumerable<Category> GetCategories()
         {
-            var categories =  _context.Categories.ToList();
+            var categories = _context.Categories.ToList();
             return categories;
         }
 
         // Get category by id from DB
-        public Category GetCategoryById( int categoryId)
+        public Category GetCategoryById(int categoryId)
         {
             var category = _context.Categories.FirstOrDefault(category => category.CategoryId == categoryId);
             if (category != null)
             {
-                return category;              
+                return category;
             }
             throw new NullReferenceException();
         }
