@@ -58,7 +58,7 @@ namespace TestCategoryService
         public void CreateCategory_WithCategoryToCreate_returnsCreatedCategory()
         {
             //Arrange
-            var categoryToCreate = new Category() { CategoryId = 3, Category1 = "Accesories" };
+            var categoryToCreate = new Category() { CategoryId = 3, CategoryName = "Accesories" };
 
 
             mockRepo.Setup(x => x.CreateCategory(categoryToCreate)).Returns(true);
@@ -68,7 +68,6 @@ namespace TestCategoryService
             var result = controller.PostTblCategory(categoryToCreate);
 
             //Assert
-            //result.Value.Should().BeEquivalentTo(categoryToCreate);
             result.Result.Should().BeOfType<CreatedAtActionResult>();
         }
 
@@ -76,7 +75,7 @@ namespace TestCategoryService
         public void CreateCategory_WithInvalidCategory_returnsBadRequest()
         {
             //Arrange
-            var categoryToCreate = new Category() { CategoryId = 4, Category1 = "Clothing" };
+            var categoryToCreate = new Category() { CategoryId = 4, CategoryName = "Clothing" };
 
 
             mockRepo.Setup(x => x.CreateCategory(categoryToCreate)).Returns(false);
@@ -86,7 +85,6 @@ namespace TestCategoryService
             var result = controller.PostTblCategory(categoryToCreate);
 
             //Assert
-            //result.Value.Should().BeEquivalentTo(categoryToCreate);
             result.Result.Should().BeOfType<BadRequestResult>();
         }
 
@@ -94,12 +92,12 @@ namespace TestCategoryService
         public void UpdateCategory_WithExsitingCategory_returnsNoContent()
         {
             //Arrange        
-            var existingcategory = new Category() { CategoryId = 1, Category1 = "Clothing" };
+            var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
             mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
 
             var categoryId = existingcategory.CategoryId;
-            var categoryToUpdate = new Category() { CategoryId = 2, Category1 = "Footwear" };
+            var categoryToUpdate = new Category() { CategoryId = 2, CategoryName = "Footwear" };
             mockRepo.Setup(x => x.UpdateCategory(categoryToUpdate)).Returns(true);
             var controller = new CategoriesController(mockRepo.Object);
 
@@ -107,15 +105,14 @@ namespace TestCategoryService
             var result = controller.PutTblCategory(categoryId,categoryToUpdate);
 
             //Assert
-            result.Should().BeEquivalentTo(categoryToUpdate);
-            //result.Should().BeOfType<NoContentResult>();
+            result.Should().BeOfType<NoContentResult>();
         }
 
         [Test]
         public void DeleteCategory_WithExsitingCategory_returnsNoContent()
         {
             //Arrange        
-            var existingcategory = new Category() { CategoryId = 1, Category1 = "Clothing" };
+            var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
             mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
             var controller = new CategoriesController(mockRepo.Object);
