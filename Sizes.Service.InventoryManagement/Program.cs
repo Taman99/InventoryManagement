@@ -1,11 +1,22 @@
+using SizesService.Context;
+using SizesService.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var service = builder.Services;
+var config = builder.Configuration;
 
-builder.Services.AddControllers();
+service.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
+service.AddScoped<ISizesRepository, SizesRepository>();
+
+service.AddEndpointsApiExplorer();
+service.AddSwaggerGen();
+
+// End services
 
 var app = builder.Build();
 
