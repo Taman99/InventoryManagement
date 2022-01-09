@@ -4,13 +4,15 @@ namespace SizesService.Repository
 {
     public interface ISizesRepository
     {
-        Size GetSizeByProductId(int productId);
+        IEnumerable<Size> GetSizes();
+
+        IEnumerable<Size> GetSizeByProductId(int productId);
 
         bool CreateSize(Size size);
 
         bool UpdateSize(Size size);
 
-        bool DeleteSize(int sizeId);
+        bool DeleteSizeBySizeId(int sizeId);
 
         bool DeleteSizesByProductId(int productId);
 

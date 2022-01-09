@@ -13,6 +13,12 @@ namespace SizesService.Repository
             _context = context;
         }
 
+        public IEnumerable<Size> GetSizes()
+        {
+            var sizes = _context.Sizes.ToList();
+            return sizes;
+        }
+
         public bool CreateSize(Size size)
         {
             _context.Add(size);
@@ -25,9 +31,10 @@ namespace SizesService.Repository
             return Commit();
         }
 
-        public bool DeleteSize(int sizeId)
+        //This method only deletes one record i.e size
+        public bool DeleteSizeBySizeId(int sizeId)
         {
-            var size = _context.Sizes.First(size => size.SizeId == sizeId);
+            var size = _context.Sizes.FirstOrDefault(size => size.SizeId == sizeId);
             if (size != null)
             {
                 _context.Sizes.Remove(size);
@@ -36,22 +43,19 @@ namespace SizesService.Repository
 
         }
 
-        //only one record will get deleted
-        //different approach must be used to delete multiple records having same product id
+        //This method deletes multiple sizes records having same product id
         public bool DeleteSizesByProductId(int productId)
         {
-            var size = _context.Sizes.FirstOrDefault(size => size.ProductId == productId);
-            if (size != null)
-            {
-                _context.Sizes.Remove(size);
-            }
+            _context.Sizes.RemoveRange(_context.Sizes.Where(size => size.ProductId == productId));
+          
             return Commit();
         }
 
-        //this will also show one record
-        public Size GetSizeByProductId(int productId)
+        //This method will return one product having multiple sizes
+        public IEnumerable<Size> GetSizeByProductId(int productId)
         {
-            var size = _context.Sizes.FirstOrDefault(size => size.ProductId == productId);
+            var size = _context.Sizes.FromSqlRaw($"SELECT * FROM Sizes WHERE ProductId={productId}").ToList();
+
             if (size != null)
             {
                 return size;

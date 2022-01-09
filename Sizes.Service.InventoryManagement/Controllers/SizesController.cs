@@ -11,7 +11,7 @@ using SizesService.Repository;
 
 namespace SizesService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class SizesController : ControllerBase
     {
@@ -22,6 +22,13 @@ namespace SizesService.Controllers
             _repo = repo;
         }
 
+        [HttpGet]
+        public ActionResult<IEnumerable<Size>> GetSizes()
+        {
+            var sizes = _repo.GetSizes();
+            return Ok(sizes);
+        }
+
         // GET: api/Sizes/5
         /// <summary>
         /// Get sizes by product id
@@ -29,12 +36,12 @@ namespace SizesService.Controllers
         /// <param name="id">product id</param>
         /// <returns>Category</returns>
         [HttpGet("{productId}")]
-        public ActionResult<Size> GetSizeByProductId(int productId)
+        public ActionResult<IEnumerable<Size>> GetSizeByProductId(int productId)
         {
             try
             {
                 var size = _repo.GetSizeByProductId(productId);
-                return size;
+                return Ok(size);
             }
             catch (Exception)
             {
@@ -50,7 +57,7 @@ namespace SizesService.Controllers
         /// <param name="Size"> Size object</param>
         /// <returns> status code </returns>
         [HttpPut("{sizeId}")]
-        public IActionResult PutSize(int sizeId, Size size)
+        public IActionResult UpdateSize(int sizeId, Size size)
         {
             if (sizeId != size.SizeId)
             {
@@ -84,7 +91,7 @@ namespace SizesService.Controllers
         /// <param name="Size"> Size object</param>
         /// <returns> Size object </returns>
         [HttpPost]
-        public ActionResult<Size> PostSize(Size size)
+        public ActionResult<Size> CreateSize(Size size)
         {
             try
             {
@@ -110,10 +117,11 @@ namespace SizesService.Controllers
         /// </summary>
         /// <param name="id"> size id </param>
         /// <returns> status code   </returns>
+       
         [HttpDelete("{sizeId}")]
-        public IActionResult DeleteSize(int sizeId)
+        public IActionResult DeleteSizeBySizeId(int sizeId)
         {
-            var isDeleted = _repo.DeleteSize(sizeId);
+            var isDeleted = _repo.DeleteSizeBySizeId(sizeId);
             if (!isDeleted)
             {
                 return NotFound();
@@ -129,7 +137,7 @@ namespace SizesService.Controllers
         /// <param name="id"> product id </param>
         /// <returns> status code   </returns>
         [HttpDelete("{productId}")]
-        public IActionResult DeleteSizeByProductId(int productId)
+        public IActionResult DeleteSizesByProductId(int productId)
         {
             var isDeleted = _repo.DeleteSizesByProductId(productId);
             if (!isDeleted)
