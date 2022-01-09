@@ -1,7 +1,5 @@
 create database InventoryManagement;
 
---Run in Products db
-
 Create table Products (
 	ProductId int PRIMARY KEY,
 	ProductName varchar(50),
@@ -21,7 +19,6 @@ Create table Products (
 	SizesExist BIT
 );
 
---Run in Sizes Db
 create table Sizes(
 	SizeId int identity(1,1) PRIMARY KEY,
 	ProductId int, 		
@@ -29,9 +26,18 @@ create table Sizes(
 	SizePrice decimal 
 );
 
---Run in Category db
 
 create table Categories(
 	CategoryId int identity(1,1) PRIMARY KEY,
 	CategoryName varchar(25),	
 );
+
+
+CREATE TABLE [UserProfile](
+	[UserId] [varchar](36) NOT NULL,
+	[UserFirstName] [varchar](30) NULL,
+	[UserLastName] [varchar](30) NULL,
+	[CompanyName] [varchar](50) NULL,
+	[ProfilePictureUrl] [varchar](255) NULL,
+	[UserEmail] [varchar](50) NULL,
+)
