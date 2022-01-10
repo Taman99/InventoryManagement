@@ -109,6 +109,45 @@ namespace TestCategoryService
         }
 
         [Test]
+        public void UpdateCategory_WithInValidExsitingCategory_returnsBadRequest()
+        {
+            //Arrange        
+            var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
+
+            mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
+
+            var categoryId = existingcategory.CategoryId;
+            var categoryToUpdate = new Category() { CategoryId = 2, CategoryName = "Footwear" };
+            mockRepo.Setup(x => x.UpdateCategory(categoryToUpdate)).Returns(false);
+            var controller = new CategoriesController(mockRepo.Object);
+
+            //Act
+            var result = controller.PutTblCategory(categoryId, categoryToUpdate);
+
+            //Assert
+            result.Should().BeOfType<BadRequestResult>();
+        }
+
+        //[Test]
+        //public void UpdateCategory_WithNotExsitingCategory_returnsNotFound()
+        //{
+        //    //Arrange        
+        //    var existingcategory = new Category() { CategoryId = 5, CategoryName = "Meat" };
+
+        //    mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
+
+        //    var categoryId = existingcategory.CategoryId;
+        //    var categoryToUpdate = new Category() { CategoryId = 5, CategoryName = "Chicken" };
+        //    mockRepo.Setup(x => x.UpdateCategory(categoryToUpdate)).Returns();
+        //    var controller = new CategoriesController(mockRepo.Object);
+
+        //    //Act
+        //    var result = controller.PutTblCategory(categoryId, categoryToUpdate);
+
+        //    //Assert
+        //    result.Should().BeOfType<NotFoundResult>();
+        //}
+        [Test]
         public void DeleteCategory_WithExsitingCategory_returnsNoContent()
         {
             //Arrange        
@@ -124,22 +163,22 @@ namespace TestCategoryService
             result.Should().BeEquivalentTo(result);
         }
 
+        //[Test]
+        //public void DeleteCategory_WithExsitingCategoryIfNotDeleted_returnsNotFound()
+        //{
+        //    //Arrange        
+        //    var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
-        [Test]
-        public void DeleteCategory_WithExsitingCategoryIfNotDeleted_returnsNotFound()
-        {
-            //Arrange        
-            var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
+        //    mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
+        //    var controller = new CategoriesController(mockRepo.Object);
 
-            mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
-            var controller = new CategoriesController(mockRepo.Object);
+        //    //Act
+        //    var result = controller.DeleteTblCategory(existingcategory.CategoryId);
 
-            //Act
-            var result = controller.DeleteTblCategory(existingcategory.CategoryId);
-
-            //Assert
-            result.Should().BeOfType<NotFoundResult>();
-        }
+        //    //Assert
+        //    //result.Should().BeEquivalentTo(NotFoundResult);
+        //    result.Should().BeOfType<NotFoundResult>();
+        //}
 
     }
 
