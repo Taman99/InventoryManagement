@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SizesService", "Sizes.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCategoryService", "TestCategoryService\TestCategoryService.csproj", "{A8CC108A-B1A4-4E97-927F-291E0ED10B59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserProfileService", "UserProfileService\UserProfileService.csproj", "{CACA4DFD-A288-47C3-8F80-3D109E87F3E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUserProfileService", "TestUserProfileService\TestUserProfileService.csproj", "{26F209CB-A915-4083-8541-E076D1AADCF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{A8CC108A-B1A4-4E97-927F-291E0ED10B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8CC108A-B1A4-4E97-927F-291E0ED10B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8CC108A-B1A4-4E97-927F-291E0ED10B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CACA4DFD-A288-47C3-8F80-3D109E87F3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CACA4DFD-A288-47C3-8F80-3D109E87F3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CACA4DFD-A288-47C3-8F80-3D109E87F3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CACA4DFD-A288-47C3-8F80-3D109E87F3E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26F209CB-A915-4083-8541-E076D1AADCF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26F209CB-A915-4083-8541-E076D1AADCF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26F209CB-A915-4083-8541-E076D1AADCF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26F209CB-A915-4083-8541-E076D1AADCF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
