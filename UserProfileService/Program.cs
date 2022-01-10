@@ -8,6 +8,7 @@ var config = builder.Configuration;
 
 // Add services to the container.
 var service = builder.Services;
+// changed by taman
 
 service.AddControllers();
 service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
