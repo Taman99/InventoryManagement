@@ -6,7 +6,7 @@ namespace UserProfileService.Repository
     {
         UserProfile GetUserProfileByUserId(string userId);
 
-        bool CreateUserProfile(UserProfile userProfile);
+        bool CreateUserProfile(string userId, UserProfile userProfile);
 
         bool UpdateUserProfile(UserProfile userProfile);
     }

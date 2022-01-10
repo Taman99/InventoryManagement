@@ -14,15 +14,16 @@ namespace ProductService.Repository
         }
 
 
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<Product> GetProducts(string userId)
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products.Where(p => p.MerchantId == userId);
             return products;
         }
 
 
-        public bool CreateProduct(Product product)
+        public bool CreateProduct(Product product, string userId)
         {
+            product.MerchantId = userId;
             _context.Products.Add(product);
             return Commit();
         }
