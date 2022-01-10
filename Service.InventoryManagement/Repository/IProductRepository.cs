@@ -5,11 +5,11 @@ namespace ProductService.Repository
 {
     public interface IProductRepository
     {
-        IEnumerable<Product> GetProducts();
+        IEnumerable<Product> GetProducts(string userId);
 
         Product GetProductById(int productId);
 
-        bool CreateProduct(Product product);
+        bool CreateProduct(Product product, string userId);
 
         bool UpdateProduct(Product product);
 

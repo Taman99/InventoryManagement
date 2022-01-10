@@ -23,19 +23,17 @@ namespace UserProfileService.Repository
                 return userProfile;
             }
 
-            var emptyUserProfile = new UserProfile()
-            {
-                UserId = userId
-            };
-
-            CreateUserProfile(emptyUserProfile);
+            var emptyUserProfile = new UserProfile();
+            
+            CreateUserProfile(userId , emptyUserProfile);
             return emptyUserProfile;
             
         }
 
         // Create new user profile in DB
-        public bool CreateUserProfile(UserProfile userProfile)
+        public bool CreateUserProfile(string userId, UserProfile userProfile)
         {
+            userProfile.UserId = userId;
             _context.UserProfiles.Add(userProfile);
             return Commit();
         }
