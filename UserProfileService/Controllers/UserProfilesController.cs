@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace UserProfileService.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [EnableCors("CorsPolicy")]
     public class UserProfilesController : ControllerBase
     {
         private readonly IUserProfileRepository _repo ;
@@ -37,7 +39,7 @@ namespace UserProfileService.Controllers
         }
 
         // GET: api/UserProfiles/5
-        [HttpGet("{userId}")]
+        [HttpGet]
         public ActionResult<UserProfile> GetUserProfile()
         {
             try

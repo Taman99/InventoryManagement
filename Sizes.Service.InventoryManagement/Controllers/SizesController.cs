@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace SizesService.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
+    [EnableCors("CorsPolicy")]
     public class SizesController : ControllerBase
     {
         private readonly ISizesRepository _repo;
