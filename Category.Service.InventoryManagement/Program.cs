@@ -14,6 +14,14 @@ service.AddControllers();
 service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
 service.AddScoped<ICategoryRepository, CategoryRepository>();
 service.AddEndpointsApiExplorer();
+service.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy",
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                      });
+});
 service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -61,6 +69,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("CorsPolicy");  
 app.UseAuthentication();
 app.UseAuthorization();
 

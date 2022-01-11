@@ -10,12 +10,14 @@ using CategoryService.Context;
 using CategoryService.Entities;
 using CategoryService.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace CategoryService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [EnableCors("CorsPolicy")]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _repo;
