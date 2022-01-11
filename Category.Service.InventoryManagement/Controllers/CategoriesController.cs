@@ -1,4 +1,4 @@
-﻿#nullable disable
+﻿    #nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using CategoryService.Context;
 using CategoryService.Entities;
 using CategoryService.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CategoryService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _repo;
@@ -105,7 +107,7 @@ namespace CategoryService.Controllers
 
                 if (isCreated)
                 {
-                    return CreatedAtAction("GetTblCategory", new { categoryId = category.CategoryId }, category);
+                    return CreatedAtAction("GetCategoryById", new { categoryId = category.CategoryId }, category);
                 }
                 return BadRequest();
             }

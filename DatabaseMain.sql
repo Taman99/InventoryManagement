@@ -1,34 +1,43 @@
 create database InventoryManagement;
 
---Run in Products db
-
 Create table Products (
-	ProductId int identity(1,1) PRIMARY KEY,
+	ProductId int PRIMARY KEY,
 	ProductName varchar(50),
 	MerchantId varchar(50),
 	ProductDesc varchar(200),
+	ImageUrl1 varchar(255),
+	ImageUrl2 varchar(255),
+	ImageUrl3 varchar(255),
+	ImageUrl4 varchar(255),
+	ImageUrl5 varchar(255),
+	ImageUrl6 varchar(255),	
 	CategoryId int,
 	ProductTag varchar(20),
 	ProductQuantity int,
 	ProductPrice decimal,
-	ProductDiscount decimal
-);
-Create table ProductImages (
-	ProductId int foreign key (ProductId) REFERENCES Products(ProductId),
-	ImageUrl nvarchar(255), 
-	primary key (ProductId,ImageUrl)
+	ProductDiscount decimal,	
+	SizesExist BIT
 );
 
---Run in Sizes Db
 create table Sizes(
-	SizeIndex int PRIMARY KEY,
-	ProductId int,
-	Size varchar(10),
+	SizeId int identity(1,1) PRIMARY KEY,
+	ProductId int, 		
+	SizeName varchar(10),
 	SizePrice decimal 
 );
 
---Run in Category db
+
 create table Categories(
 	CategoryId int identity(1,1) PRIMARY KEY,
-	Category varchar(25),	
+	CategoryName varchar(25),	
 );
+
+
+CREATE TABLE [UserProfile](
+	[UserId] [varchar](36) NOT NULL,
+	[UserFirstName] [varchar](30) NULL,
+	[UserLastName] [varchar](30) NULL,
+	[CompanyName] [varchar](50) NULL,
+	[ProfilePictureUrl] [varchar](255) NULL,
+	[UserEmail] [varchar](50) NULL,
+)

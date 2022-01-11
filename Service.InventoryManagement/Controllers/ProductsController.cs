@@ -1,8 +1,10 @@
 ﻿#nullable disable
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,7 @@ namespace ProductService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _repo;
@@ -23,11 +26,22 @@ namespace ProductService.Controllers
             _repo = repo;
         }
 
+        private string getUserIdFromJwtToken()
+        {
+            var bearerToken = Request.Headers["Authorization"].ToString();
+            var token = bearerToken.Split(' ')[1];
+            var jwtToken = new JwtSecurityToken(token);
+            var userId = jwtToken.Subject;
+            return userId;
+        }
+
+
         // GET: api/Products
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
-            var products = _repo.GetProducts();
+            var userId = getUserIdFromJwtToken();
+            var products = _repo.GetProducts(userId);
             return Ok(products);
         }
 
@@ -48,7 +62,6 @@ namespace ProductService.Controllers
         }
 
         // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{categoryId}")]
         public IActionResult PutProduct(int productId, Product product)
         {
@@ -77,13 +90,13 @@ namespace ProductService.Controllers
         }
 
         // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+         [HttpPost]
         public ActionResult<Product> PostProduct(Product product)
         {
             try
             {
-                var isCreated = _repo.CreateProduct(product);
+                var userId = getUserIdFromJwtToken();
+                var isCreated = _repo.CreateProduct(product, userId);
 
                 if (isCreated)
                 {
@@ -94,7 +107,7 @@ namespace ProductService.Controllers
             catch (Exception e)
             {
                 Console.WriteLine("Error while creating : " + e.Message);
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 

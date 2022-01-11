@@ -1,18 +1,20 @@
-using CategoryService.Context;
-using CategoryService.Repository;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using UserProfileService.Context;
+using UserProfileService.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
-var config  = builder.Configuration;
 var service = builder.Services;
+// changed by taman
 
 service.AddControllers();
 service.AddDbContext<InventoryManagementContext>(op => op.UseSqlServer(config.GetConnectionString("conStr")));
-service.AddScoped<ICategoryRepository, CategoryRepository>();
+service.AddScoped<IUserProfileRepository, UserProfileRepository>();
 service.AddEndpointsApiExplorer();
 service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -49,7 +51,6 @@ service.AddSwaggerGen(c => {
 
 });
 
-// End services
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
