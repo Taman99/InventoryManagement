@@ -41,3 +41,11 @@ CREATE TABLE [UserProfile](
 	[ProfilePictureUrl] [varchar](255) NULL,
 	[UserEmail] [varchar](50) NULL,
 )
+
+Alter table userprofile
+add UserPhoneNo varchar(10),
+	Gender varchar(6),
+	UserAddress varchar(150),
+	UserState varchar(30),
+	UserCountry varchar(20)
+
