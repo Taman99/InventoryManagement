@@ -11,5 +11,10 @@ namespace UserProfileService.Entities
         public string? CompanyName { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public string? UserEmail { get; set; }
+        public string? UserPhoneNo { get; set; }
+        public string? Gender { get; set; }
+        public string? UserAddress { get; set; }
+        public string? UserState { get; set; }
+        public string? UserCountry { get; set; }
     }
 }

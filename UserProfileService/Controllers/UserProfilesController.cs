@@ -56,7 +56,7 @@ namespace UserProfileService.Controllers
         }
 
         // PUT: api/UserProfiles/5
-        [HttpPut("{userId}")]
+        [HttpPut]
         public IActionResult UpdateUserProfile(UserProfile userProfile)
         {
             var userId = getUserIdFromJwtToken();
