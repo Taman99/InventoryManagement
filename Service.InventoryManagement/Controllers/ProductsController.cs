@@ -123,7 +123,7 @@ namespace ProductService.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         private bool ProductExists(int productId)
