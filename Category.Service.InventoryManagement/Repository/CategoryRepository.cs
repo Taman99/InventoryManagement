@@ -14,9 +14,9 @@ namespace CategoryService.Repository
         }
 
         // Get categories from DB
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<Category> GetCategories(string userId)
         {
-            var categories = _context.Categories.ToList();
+            var categories = _context.Categories.Where(c => c.UserId == userId);
             return categories;
         }
 

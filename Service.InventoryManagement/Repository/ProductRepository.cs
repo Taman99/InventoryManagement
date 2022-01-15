@@ -1,6 +1,10 @@
 ﻿using ProductService.Context;
 using ProductService.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace ProductService.Repository
 {
@@ -24,6 +28,7 @@ namespace ProductService.Repository
         public bool CreateProduct(Product product, string userId)
         {
             product.MerchantId = userId;
+            //product.ProductId = Guid.NewGuid();
             _context.Products.Add(product);
             return Commit();
         }
