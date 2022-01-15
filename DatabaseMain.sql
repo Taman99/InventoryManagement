@@ -48,4 +48,7 @@ add UserPhoneNo varchar(10),
 	UserAddress varchar(150),
 	UserState varchar(30),
 	UserCountry varchar(20)
+	
+Alter table categories
+add UserId varchar(50)
 
