@@ -49,7 +49,7 @@ namespace ProductService.Controllers
 
         // GET: api/Products/5
         [HttpGet("{productId}")]
-        public ActionResult<Product> GetProduct(int productId)
+        public ActionResult<Product> GetProduct(string productId)
         {
             try
             {
@@ -64,8 +64,8 @@ namespace ProductService.Controllers
         }
 
         // PUT: api/Products/5
-        [HttpPut("{categoryId}")]
-        public IActionResult PutProduct(int productId, Product product)
+        [HttpPut("{productId}")]
+        public IActionResult PutProduct(string productId, Product product)
         {
             if (productId != product.ProductId)
             {
@@ -115,7 +115,7 @@ namespace ProductService.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{productId}")]
-        public IActionResult DeleteProduct(int productId)
+        public IActionResult DeleteProduct(string productId)
         {
             var isDeleted = _repo.DeleteProduct(productId);
             if (!isDeleted)
@@ -126,7 +126,7 @@ namespace ProductService.Controllers
             return NoContent();
         }
 
-        private bool ProductExists(int productId)
+        private bool ProductExists(string productId)
         {
             var exists = _repo.ProductExists(productId);
             return exists;

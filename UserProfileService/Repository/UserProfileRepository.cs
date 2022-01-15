@@ -45,6 +45,13 @@ namespace UserProfileService.Repository
             return Commit();
         }   
 
+        public bool UserExists(string userId)
+        {
+            var user = _context.UserProfiles.Find(userId);
+            var exists = user != null;
+            return exists;
+        }
+
         // Save changes to DB
         private bool Commit()
         {

@@ -9,5 +9,7 @@ namespace UserProfileService.Repository
         bool CreateUserProfile(string userId, UserProfile userProfile);
 
         bool UpdateUserProfile(UserProfile userProfile);
+
+        public bool UserExists(string userId);
     }
 }

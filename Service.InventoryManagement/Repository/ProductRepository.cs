@@ -28,11 +28,11 @@ namespace ProductService.Repository
         public bool CreateProduct(Product product, string userId)
         {
             product.MerchantId = userId;
-            //product.ProductId = Guid.NewGuid();
+            product.ProductId = Guid.NewGuid().ToString();
             _context.Products.Add(product);
             return Commit();
         }
-        public bool DeleteProduct(int productId)
+        public bool DeleteProduct(string productId)
         {
             var product = _context.Products.FirstOrDefault(product => product.ProductId == productId);
             if (product != null)
@@ -42,7 +42,7 @@ namespace ProductService.Repository
             return Commit();
         }
 
-        public Product GetProductById(int productId)
+        public Product GetProductById(string productId)
         {
             var product = _context.Products.FirstOrDefault(product => product.ProductId == productId);
             if (product != null)
@@ -55,7 +55,7 @@ namespace ProductService.Repository
             }
         }
 
-        public bool ProductExists(int productId)
+        public bool ProductExists(string productId)
         {
             return _context.Products.Any(product => product.ProductId == productId);
         }

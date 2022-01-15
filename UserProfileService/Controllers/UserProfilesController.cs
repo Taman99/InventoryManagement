@@ -112,5 +112,26 @@ namespace UserProfileService.Controllers
             }          
         }
 
+        //GET: api/UserProfiles/userExists
+        [HttpGet("UserExists")]
+        public IActionResult UserExists()
+        {
+            try
+            {
+                var userId = getUserIdFromJwtToken();
+                var exists = _repo.UserExists(userId);
+                if (exists)
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
+        }
+
     }
 }
