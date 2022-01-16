@@ -15,7 +15,7 @@ namespace UserProfileService.Repository
         }
 
         // if present, Get user profile from DB , else, create new user profile
-        public UserProfile GetUserProfileByUserId(string userId)
+        public UserProfile GetUserProfileByUserId(string userId, string userEmail)
         {
             var userProfile = _context.UserProfiles.Find(userId);
             if(userProfile != null)
@@ -25,15 +25,16 @@ namespace UserProfileService.Repository
 
             var emptyUserProfile = new UserProfile();
             
-            CreateUserProfile(userId , emptyUserProfile);
+            CreateUserProfile(userId, userEmail, emptyUserProfile);
             return emptyUserProfile;
             
         }
 
         // Create new user profile in DB
-        public bool CreateUserProfile(string userId, UserProfile userProfile)
+        public bool CreateUserProfile(string userId, string userEmail, UserProfile userProfile)
         {
             userProfile.UserId = userId;
+            userProfile.UserEmail = userEmail;
             _context.UserProfiles.Add(userProfile);
             return Commit();
         }
