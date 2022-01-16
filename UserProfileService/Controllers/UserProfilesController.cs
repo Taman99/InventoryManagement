@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -34,9 +35,23 @@ namespace UserProfileService.Controllers
             var bearerToken = Request.Headers["Authorization"].ToString();
             var token = bearerToken.Split(' ')[1];
             var jwtToken = new JwtSecurityToken(token);
-            var userId = jwtToken.Subject;
+            var userId = jwtToken.Subject;        
             return userId;
         }
+
+        //get user email from JWT access token 
+        private string getUserEmailFromJwtToken()
+        {
+            string userEmail = null;
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {    
+                userEmail = identity.FindFirst("https://example.com/email").Value;
+            }
+            return userEmail;
+        }
+
+       
 
         // GET: api/UserProfiles/5
         [HttpGet]
@@ -45,7 +60,8 @@ namespace UserProfileService.Controllers
             try
             {
                 var userId = getUserIdFromJwtToken();
-                var userProfile = _repo.GetUserProfileByUserId(userId);
+                var userEmail = getUserEmailFromJwtToken();
+                var userProfile = _repo.GetUserProfileByUserId(userId, userEmail);
                 return userProfile;
             }
             catch (Exception e)
@@ -93,11 +109,11 @@ namespace UserProfileService.Controllers
             try
             {
                 var userId = getUserIdFromJwtToken();
-                
-                var isCreated = _repo.CreateUserProfile(userId , userProfile);
+                var userEmail = getUserEmailFromJwtToken();
+                var isCreated = _repo.CreateUserProfile(userId , userEmail, userProfile);
                 if (isCreated)
                 {
-                    return CreatedAtAction("GetUserProfile", new { userId = userProfile.UserId }, userProfile);
+                    return CreatedAtAction("GetUserProfile", new { }, userProfile);
                 }
                 else
                 {
@@ -110,6 +126,27 @@ namespace UserProfileService.Controllers
                 return Conflict();
                
             }          
+        }
+
+        //GET: api/UserProfiles/userExists
+        [HttpGet("UserExists")]
+        public IActionResult UserExists()
+        {
+            try
+            {
+                var userId = getUserIdFromJwtToken();
+                var exists = _repo.UserExists(userId);
+                if (exists)
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
         }
 
     }

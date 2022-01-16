@@ -5,7 +5,7 @@ namespace ProductService.Entities
 {
     public partial class Product
     {
-        public int ProductId { get; set; }
+        public string ProductId { get; set; } = null!;
         public string? ProductName { get; set; }
         public string? MerchantId { get; set; }
         public string? ProductDesc { get; set; }
