@@ -6,7 +6,7 @@ namespace SizesService.Repository
     {
         IEnumerable<Size> GetSizes();
 
-        IEnumerable<Size> GetSizeByProductId(int productId);
+        IEnumerable<Size> GetSizeByProductId(string productId);
 
         bool CreateSize(Size size);
 
@@ -14,7 +14,7 @@ namespace SizesService.Repository
 
         bool DeleteSizeBySizeId(int sizeId);
 
-        bool DeleteSizesByProductId(int productId);
+        bool DeleteSizesByProductId(string productId);
 
         bool SizeExists(int sizeId);
     }
