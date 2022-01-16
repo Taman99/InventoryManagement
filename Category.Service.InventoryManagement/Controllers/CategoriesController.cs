@@ -11,6 +11,7 @@ using CategoryService.Entities;
 using CategoryService.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CategoryService.Controllers
 {
@@ -27,6 +28,15 @@ namespace CategoryService.Controllers
             _repo = repo;
         }
 
+        private string getUserIdFromJwtToken()
+        {
+            var bearerToken = Request.Headers["Authorization"].ToString();
+            var token = bearerToken.Split(' ')[1];
+            var jwtToken = new JwtSecurityToken(token);
+            var userId = jwtToken.Subject;
+            return userId;
+        }
+
         // GET: api/Categories
         /// <summary>
         /// Get list of all categories
@@ -35,7 +45,8 @@ namespace CategoryService.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Category>> GetCategories()
         {
-            var categories = _repo.GetCategories();
+            var userId = getUserIdFromJwtToken();
+            var categories = _repo.GetCategories(userId);
             return categories.ToList();
         }
 
@@ -67,7 +78,7 @@ namespace CategoryService.Controllers
         /// <param name="Category"> Category object</param>
         /// <returns> status code </returns>
         [HttpPut("{categoryId}")]
-        public IActionResult PutTblCategory(int categoryId, Category category)
+        public IActionResult PutCategory(int categoryId, Category category)
         {
             if (categoryId != category.CategoryId)
             {
@@ -91,7 +102,7 @@ namespace CategoryService.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Categories
@@ -101,10 +112,12 @@ namespace CategoryService.Controllers
         /// <param name="Category"> Category object</param>
         /// <returns> Category object </returns>
         [HttpPost]
-        public ActionResult<Category> PostTblCategory(Category category)
+        public ActionResult<Category> PostCategory(Category category)
         {
             try
             {
+                var userId = getUserIdFromJwtToken();
+                category.UserId = userId;
                 var isCreated = _repo.CreateCategory(category);
 
                 if (isCreated)
@@ -128,7 +141,7 @@ namespace CategoryService.Controllers
         /// <param name="id"> category id </param>
         /// <returns> status code   </returns>
         [HttpDelete("{categoryId}")]
-        public IActionResult DeleteTblCategory(int categoryId)
+        public IActionResult DeleteCategory(int categoryId)
         {
             var isDeleted = _repo.DeleteCategory(categoryId);
             if (!isDeleted)
@@ -136,7 +149,7 @@ namespace CategoryService.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         private bool CategoryExists(int categoryId)

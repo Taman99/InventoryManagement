@@ -4,7 +4,7 @@ namespace CategoryService.Repository
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> GetCategories();
+        IEnumerable<Category> GetCategories( string userId);
 
         Category GetCategoryById(int categoryId);
 
