@@ -7,16 +7,16 @@ namespace ProductService.Repository
     {
         IEnumerable<Product> GetProducts(string userId);
 
-        Product GetProductById(int productId);
+        Product GetProductById(string productId);
 
         bool CreateProduct(Product product, string userId);
 
         bool UpdateProduct(Product product);
 
-        bool DeleteProduct(int productId);
+        bool DeleteProduct(string productId);
 
 
-        bool ProductExists(int productId);
+        bool ProductExists(string productId);
 
 
     }
