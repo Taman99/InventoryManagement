@@ -44,7 +44,7 @@ namespace SizesService.Repository
         }
 
         //This method deletes multiple sizes records having same product id
-        public bool DeleteSizesByProductId(int productId)
+        public bool DeleteSizesByProductId(string productId)
         {
             _context.Sizes.RemoveRange(_context.Sizes.Where(size => size.ProductId == productId));
           
@@ -52,7 +52,7 @@ namespace SizesService.Repository
         }
 
         //This method will return one product having multiple sizes
-        public IEnumerable<Size> GetSizeByProductId(int productId)
+        public IEnumerable<Size> GetSizeByProductId(string productId)
         {
             var size = _context.Sizes.FromSqlRaw($"SELECT * FROM Sizes WHERE ProductId={productId}").ToList();
 

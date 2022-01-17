@@ -1,15 +1,9 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProductService.Context;
 using ProductService.Entities;
 using ProductService.Repository;
 
@@ -23,11 +17,13 @@ namespace ProductService.Controllers
     {
         private readonly IProductRepository _repo;
 
+        //Repository
         public ProductsController(IProductRepository repo)
         {
             _repo = repo;
         }
 
+        //Get Bearer token for authorization
         private string getUserIdFromJwtToken()
         {
             var bearerToken = Request.Headers["Authorization"].ToString();
@@ -37,7 +33,7 @@ namespace ProductService.Controllers
             return userId;
         }
 
-
+        // API call for getting all products according to merchant id
         // GET: api/Products
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetProducts()
@@ -47,6 +43,7 @@ namespace ProductService.Controllers
             return Ok(products);
         }
 
+        // API call for getting individual products
         // GET: api/Products/5
         [HttpGet("{productId}")]
         public ActionResult<Product> GetProduct(string productId)
@@ -63,6 +60,7 @@ namespace ProductService.Controllers
 
         }
 
+        //API call for editing products
         // PUT: api/Products/5
         [HttpPut("{productId}")]
         public IActionResult PutProduct(string productId, Product product)
@@ -90,9 +88,10 @@ namespace ProductService.Controllers
             }
             return NoContent();
         }
-
+        
+        //API call for Creating products
         // POST: api/Products
-         [HttpPost]
+        [HttpPost]
         public ActionResult<Product> PostProduct(Product product)
         {
             try
@@ -113,6 +112,7 @@ namespace ProductService.Controllers
             }
         }
 
+        //API call for Deleting products
         // DELETE: api/Products/5
         [HttpDelete("{productId}")]
         public IActionResult DeleteProduct(string productId)
@@ -123,9 +123,10 @@ namespace ProductService.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
 
+        //Function to check if product exists
         private bool ProductExists(string productId)
         {
             var exists = _repo.ProductExists(productId);

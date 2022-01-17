@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace ProductService.Entities
 {
+    //Sizes Entity
     public partial class Size
     {
         public int SizeId { get; set; }

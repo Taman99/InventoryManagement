@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using ProductService.Entities;
 
 namespace ProductService.Context
 {
+    //Db Context class
     public partial class InventoryManagementContext : DbContext
-    {
+    {   
         public InventoryManagementContext()
         {
         }
@@ -17,17 +15,9 @@ namespace ProductService.Context
         {
         }
 
-        public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<Product> Products { get; set; } = null!; //Products DBSet
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("server=.\\sqlexpress;trusted_connection=true;database=InventoryManagement");
-//            }
-//        }
-
+        //Model Builder Functions
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>(entity =>

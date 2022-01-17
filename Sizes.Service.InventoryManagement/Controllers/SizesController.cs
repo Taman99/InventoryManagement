@@ -40,7 +40,7 @@ namespace SizesService.Controllers
         /// <param name="id">product id</param>
         /// <returns>Category</returns>
         [HttpGet("{productId}")]
-        public ActionResult<IEnumerable<Size>> GetSizeByProductId(int productId)
+        public ActionResult<IEnumerable<Size>> GetSizeByProductId(string productId)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace SizesService.Controllers
         /// <param name="id"> product id </param>
         /// <returns> status code   </returns>
         [HttpDelete("{productId}")]
-        public IActionResult DeleteSizesByProductId(int productId)
+        public IActionResult DeleteSizesByProductId(string productId)
         {
             var isDeleted = _repo.DeleteSizesByProductId(productId);
             if (!isDeleted)

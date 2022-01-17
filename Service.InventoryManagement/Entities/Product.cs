@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace ProductService.Entities
 {
+    //Product Entity
     public partial class Product
     {
         public string ProductId { get; set; } = null!;

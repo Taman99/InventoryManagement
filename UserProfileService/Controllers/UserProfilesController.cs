@@ -23,6 +23,7 @@ namespace UserProfileService.Controllers
     public class UserProfilesController : ControllerBase
     {
         private readonly IUserProfileRepository _repo ;
+    
 
         public UserProfilesController(IUserProfileRepository repo)
         {
@@ -53,7 +54,8 @@ namespace UserProfileService.Controllers
 
        
 
-        // GET: api/UserProfiles/5
+        // GET: api/UserProfiles
+        // Get user profile info of current user
         [HttpGet]
         public ActionResult<UserProfile> GetUserProfile()
         {
@@ -71,7 +73,8 @@ namespace UserProfileService.Controllers
            
         }
 
-        // PUT: api/UserProfiles/5
+        // PUT: api/UserProfiles
+        // Update user profile info 
         [HttpPut]
         public IActionResult UpdateUserProfile(UserProfile userProfile)
         {
@@ -102,6 +105,7 @@ namespace UserProfileService.Controllers
         }
 
         // POST: api/UserProfiles
+        // Create new user profile with email taken from access token 
         [HttpPost]
         public ActionResult<UserProfile> CreateUserProfile(UserProfile userProfile)
         {
@@ -129,6 +133,7 @@ namespace UserProfileService.Controllers
         }
 
         //GET: api/UserProfiles/userExists
+        // check if user information exists in Database
         [HttpGet("UserExists")]
         public IActionResult UserExists()
         {
