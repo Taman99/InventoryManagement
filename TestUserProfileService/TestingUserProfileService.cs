@@ -19,106 +19,106 @@ namespace TestUserProfileService
             mockRepo = new Mock<IUserProfileRepository>();
         }
 
-        //[Test]
-        //public void GetUserProfile_WithUserProfile_ReturnsUserProfile()
-        //{
-        //    //Arrange
-            
-        //    var userProfile = new UserProfile()
-        //    {
-        //        UserId = "abc"
-        //    };
-        //    mockRepo.Setup(x => x.GetUserProfileByUserId("abc")).Returns(userProfile);
+        [Test]
+        public void GetUserProfile_WithUserProfile_ReturnsUserProfile()
+        {
+            //Arrange
 
-        //    var controller = new UserProfilesController(mockRepo.Object);
+            var userProfile = new UserProfile()
+            {
+                UserId = "abc"
+            };
+            mockRepo.Setup(x => x.GetUserProfileByUserId("abc","xyz@gmail.com")).Returns(userProfile);
 
-        //    //Act
-        //    var result = controller.GetUserProfile("abc");
+            var controller = new UserProfilesController(mockRepo.Object);
 
-        //    //Assert
-        //    result.Value.Should().BeEquivalentTo(userProfile);
-        //}
+            //Act
+            var result = controller.GetUserProfile();
 
-        //[Test]
-        //public void UpdateUserProfile_WithUserProfile_ReturnsOkStatus()
-        //{
-        //    //Arrange
+            //Assert
+            result.Value.Should().BeEquivalentTo(userProfile);
+        }
 
-        //    var newUserProfile = new UserProfile()
-        //    {
-        //        UserId = "abc"
-        //    };
-        //    mockRepo.Setup(x => x.UpdateUserProfile(newUserProfile)).Returns(true);
+        [Test]
+        public void UpdateUserProfile_WithUserProfile_ReturnsOkStatus()
+        {
+            //Arrange
 
-        //    var controller = new UserProfilesController(mockRepo.Object);
+            var newUserProfile = new UserProfile()
+            {
+                UserId = "abc"
+            };
+            mockRepo.Setup(x => x.UpdateUserProfile(newUserProfile)).Returns(true);
 
-        //    //Act
-        //    var result = controller.UpdateUserProfile("abc", newUserProfile);
+            var controller = new UserProfilesController(mockRepo.Object);
 
-        //    //Assert
-        //    result.Should().BeOfType<OkResult>();
-        //}
+            //Act
+            var result = controller.UpdateUserProfile(newUserProfile);
 
-        //[Test]
-        //public void UpdateUserProfile_WithInvalidUpdate_ReturnsBadRequestStatus()
-        //{
-        //    //Arrange
+            //Assert
+            result.Should().BeOfType<OkResult>();
+        }
 
-        //    var newUserProfile = new UserProfile()
-        //    {
-        //        UserId = "abc"
-        //    };
-        //    mockRepo.Setup(x => x.UpdateUserProfile(newUserProfile)).Returns(false);
+        [Test]
+        public void UpdateUserProfile_WithInvalidUpdate_ReturnsBadRequestStatus()
+        {
+            //Arrange
 
-        //    var controller = new UserProfilesController(mockRepo.Object);
+            var newUserProfile = new UserProfile()
+            {
+                UserId = "abc"
+            };
+            mockRepo.Setup(x => x.UpdateUserProfile(newUserProfile)).Returns(false);
 
-        //    //Act
-        //    var result = controller.UpdateUserProfile("abc", newUserProfile);
+            var controller = new UserProfilesController(mockRepo.Object);
 
-        //    //Assert
-        //    result.Should().BeOfType<BadRequestResult>();
-        //}
+            //Act
+            var result = controller.UpdateUserProfile(newUserProfile);
 
-        //[Test]
-        //public void UpdateUserProfile_WithException_ReturnsConflictStatus()
-        //{
-        //    //Arrange
+            //Assert
+            result.Should().BeOfType<BadRequestResult>();
+        }
 
-        //    var newUserProfile = new UserProfile()
-        //    {
-        //        UserId = "abc"
-        //    };
-        //    mockRepo.Setup(x => x.UpdateUserProfile(newUserProfile)).Throws(new Exception());
+        [Test]
+        public void UpdateUserProfile_WithException_ReturnsConflictStatus()
+        {
+            //Arrange
 
-        //    var controller = new UserProfilesController(mockRepo.Object);
+            var newUserProfile = new UserProfile()
+            {
+                UserId = "abc"
+            };
+            mockRepo.Setup(x => x.UpdateUserProfile(newUserProfile)).Throws(new Exception());
 
-        //    //Act
-        //    var result = controller.UpdateUserProfile("abc", newUserProfile);
+            var controller = new UserProfilesController(mockRepo.Object);
 
-        //    //Assert
-        //    result.Should().BeOfType<ConflictResult>();
-        //}
+            //Act
+            var result = controller.UpdateUserProfile(newUserProfile);
 
-        //[Test]
-        //public void CreateUserProfile_WithNewProfile_ReturnsCreatedProfile()
-        //{
-        //    //Arrange
+            //Assert
+            result.Should().BeOfType<ConflictResult>();
+        }
 
-        //    var newUserProfile = new UserProfile()
-        //    {
-        //        UserId = "abc"
-        //    };
-        //    mockRepo.Setup(x => x.CreateUserProfile(newUserProfile)).Returns(true);
-        //    mockRepo.Setup(x => x.GetUserProfileByUserId("abc")).Returns(newUserProfile);
+        [Test]
+        public void CreateUserProfile_WithNewProfile_ReturnsCreatedProfile()
+        {
+            //Arrange
+
+            var newUserProfile = new UserProfile()
+            {
+                UserId = "abc"
+            };
+            mockRepo.Setup(x => x.CreateUserProfile("abc", "xyz@gamil.com",newUserProfile)).Returns(true);
+            mockRepo.Setup(x => x.GetUserProfileByUserId("abc","xyz@gamil.com")).Returns(newUserProfile);
 
 
-        //    var controller = new UserProfilesController(mockRepo.Object);
+            var controller = new UserProfilesController(mockRepo.Object);
 
-        //    //Act
-        //    var result = controller.CreateUserProfile(newUserProfile);
+            //Act
+            var result = controller.CreateUserProfile(newUserProfile);
 
-        //    //Assert
-        //    result.Result.Should().BeOfType<CreatedAtActionResult>();
-        //}
+            //Assert
+            result.Result.Should().BeOfType<CreatedAtActionResult>();
+        }
     }
 }
