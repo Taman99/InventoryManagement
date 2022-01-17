@@ -3,6 +3,7 @@
 
 namespace ProductService.Repository
 {
+    //Repository Pattern Interface for API Implementation
     public interface IProductRepository
     {
         IEnumerable<Product> GetProducts(string userId);
@@ -15,9 +16,7 @@ namespace ProductService.Repository
 
         bool DeleteProduct(string productId);
 
-
         bool ProductExists(string productId);
-
 
     }
 }

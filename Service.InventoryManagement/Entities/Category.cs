@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace ProductService.Entities
 {
+    //Category Entity
     public partial class Category
     {
         public int CategoryId { get; set; }
