@@ -14,6 +14,7 @@ pipeline {
                 bat 'dotnet build'
             }
         }
+        // Test the Nunit test projects
         stage('Test') {
             steps {
                 bat 'dotnet test'
