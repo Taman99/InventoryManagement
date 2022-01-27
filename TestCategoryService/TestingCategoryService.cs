@@ -7,16 +7,30 @@ using FluentAssertions;
 using System;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace TestCategoryService
 {
     public class TestingCategoryService
     {
-        private Mock<ICategoryRepository> mockRepo;
+        private Mock<ICategoryRepository> _mockRepo;
+        private DefaultHttpContext _httpContext;
+        private string _userId = "google-oauth2|105207773114799152868";
+        private string _email = "abc@gmail.com";
 
-        public TestingCategoryService()
+        [SetUp]
+        public void Setup()
         {
-            mockRepo = new Mock<ICategoryRepository>();
+            _mockRepo = new Mock<ICategoryRepository>();
+            var httpContext = new DefaultHttpContext();
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                        new Claim("https://example.com/email", "abc@gmail.com"),
+                                   }, "TestingAPI"));
+
+            httpContext.Request.Headers.Add("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlpJS1dOc3RJVDNrVU03UDE2d3JOSyJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidHNpbmdoMTUyMDFAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtdGFwcC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDUyMDc3NzMxMTQ3OTkxNTI4NjgiLCJhdWQiOlsiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2MSIsImh0dHBzOi8vZGV2LXRhcHAudXMuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTY0MjQzNTc5OSwiZXhwIjoxNjQyNDQyOTk5LCJhenAiOiJhVHRyNU5GY1FGSGdRQzNVUThRb3Y1ZUtmUzFsb1Y3eSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.NGxwHFVYQ1KetbCgtTxpBbZ3FHrh_7_m5FgRqdQ3mxlpzKdAuCLn5xIELfEGaJn2iUjWBw9eQpLXJrylAuiFL37usnVkXB9uL3KxfXSEFDY8bbeWj0uXUepM2SByMvVqIm0wZyOTI7_gMu3_oD5lcMR0-SH5rFRmwnU-61D_Q9W24GmlabRANxjqImq6-Gae1enI729a9De8XzocajEB4K9f67u_sh00AIbFle227JPDzkjY1IU10xWMZ9eHZpe4LYfRef_0TfCuO9x5OuhKvTaX1HJNWA6dRic7D5q86CjXtb2vj0KV7SGnJ_ekZHfCm-rqonZr7kIIjI2bcn6BFg");
+            httpContext.User = user;
+            _httpContext = httpContext;
         }
 
         [Test]
@@ -24,12 +38,18 @@ namespace TestCategoryService
         {
             //Arrange
             var categories = new List<Category>() {
-                new Category() { CategoryId=1 , CategoryName = "Clothing"},
-                new Category() { CategoryId=2 , CategoryName = "Food"}
+                new Category() { UserId = _userId, CategoryId=1 , CategoryName = "Clothing"},
+                new Category() { UserId = _userId, CategoryId=2 , CategoryName = "Food"}
             };
 
-            mockRepo.Setup(x => x.GetCategories("abc")).Returns(categories);
-            var controller = new CategoriesController(mockRepo.Object);
+            _mockRepo.Setup(x => x.GetCategories(_userId)).Returns(categories);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
             //Act
             var result = controller.GetCategories();
@@ -44,8 +64,14 @@ namespace TestCategoryService
             //Arrange        
             var category = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
-            mockRepo.Setup(x => x.GetCategoryById(1)).Returns(category);
-            var controller = new CategoriesController(mockRepo.Object);
+            _mockRepo.Setup(x => x.GetCategoryById(1)).Returns(category);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
             //Act
             var result = controller.GetCategoryById(1);
@@ -54,113 +80,149 @@ namespace TestCategoryService
             result.Value.Should().BeEquivalentTo(category);
         }
 
-        //[Test]
-        //public void CreateCategory_WithCategoryToCreate_returnsCreatedCategory()
-        //{
-        //    //Arrange
-        //    var categoryToCreate = new Category() { CategoryId = 3, CategoryName = "Accesories" };
+        [Test]
+        public void CreateCategory_WithCategoryToCreate_returnsCreatedCategory()
+        {
+            //Arrange
+            var categoryToCreate = new Category() { UserId = _userId, CategoryId = 3, CategoryName = "Accesories" };
 
 
-        //    mockRepo.Setup(x => x.CreateCategory(categoryToCreate)).Returns(true);
-        //    var controller = new CategoriesController(mockRepo.Object);
+            _mockRepo.Setup(x => x.CreateCategory(categoryToCreate)).Returns(true);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
-        //    //Act
-        //    var result = controller.PostTblCategory(categoryToCreate);
+            //Act
+            var result = controller.PostCategory(categoryToCreate);
 
-        //    //Assert
-        //    result.Result.Should().BeOfType<CreatedAtActionResult>();
-        //}
+            //Assert
+            result.Result.Should().BeOfType<CreatedAtActionResult>();
+        }
 
-        //[Test]
-        //public void CreateCategory_WithInvalidCategory_returnsBadRequest()
-        //{
-        //    //Arrange
-        //    var categoryToCreate = new Category() { CategoryId = 4, CategoryName = "Clothing" };
+        [Test]
+        public void CreateCategory_WithInvalidCategory_returnsBadRequest()
+        {
+            //Arrange
+            var categoryToCreate = new Category() { CategoryId = 4, CategoryName = "Clothing" };
 
 
-        //    mockRepo.Setup(x => x.CreateCategory(categoryToCreate)).Returns(false);
-        //    var controller = new CategoriesController(mockRepo.Object);
+            _mockRepo.Setup(x => x.CreateCategory(categoryToCreate)).Returns(false);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
-        //    //Act
-        //    var result = controller.PostTblCategory(categoryToCreate);
+            //Act
+            var result = controller.PostCategory(categoryToCreate);
 
-        //    //Assert
-        //    result.Result.Should().BeOfType<BadRequestResult>();
-        //}
+            //Assert
+            result.Result.Should().BeOfType<BadRequestResult>();
+        }
 
-        //[Test]
-        //public void UpdateCategory_WithExsitingCategory_returnsNoContent()
-        //{
-        //    //Arrange        
-        //    var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
+        [Test]
+        public void UpdateCategory_WithExsitingCategory_returnsNoContent()
+        {
+            //Arrange        
+            var existingcategory = new Category() { UserId = _userId, CategoryId = 1, CategoryName = "Clothing" };
 
-        //    mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
+            _mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
 
-        //    var categoryId = existingcategory.CategoryId;
-        //    var categoryToUpdate = new Category() { CategoryId = 2, CategoryName = "Footwear" };
-        //    mockRepo.Setup(x => x.UpdateCategory(categoryToUpdate)).Returns(true);
-        //    var controller = new CategoriesController(mockRepo.Object);
+            var categoryId = existingcategory.CategoryId;
+            var categoryToUpdate = new Category() { UserId = _userId, CategoryId = 1, CategoryName = "Footwear" };
+            _mockRepo.Setup(x => x.UpdateCategory(categoryToUpdate)).Returns(true);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
-        //    //Act
-        //    var result = controller.PutTblCategory(categoryId,categoryToUpdate);
+            //Act
+            var result = controller.PutCategory(categoryId, categoryToUpdate);
 
-        //    //Assert
-        //    result.Should().BeOfType<NoContentResult>();
-        //}
+            //Assert
+            result.Should().BeOfType<OkResult>();
+        }
 
-        //[Test]
-        //public void UpdateCategory_WithInValidExsitingCategory_returnsBadRequest()
-        //{
-        //    //Arrange        
-        //    var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
+        [Test]
+        public void UpdateCategory_WithInValidExsitingCategory_returnsBadRequest()
+        {
+            //Arrange        
+            var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
-        //    mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
+            _mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
 
-        //    var categoryId = existingcategory.CategoryId;
-        //    var categoryToUpdate = new Category() { CategoryId = 2, CategoryName = "Footwear" };
-        //    mockRepo.Setup(x => x.UpdateCategory(categoryToUpdate)).Returns(false);
-        //    var controller = new CategoriesController(mockRepo.Object);
+            var categoryId = existingcategory.CategoryId;
+            var categoryToUpdate = new Category() { CategoryId = 2, CategoryName = "Footwear" };
+            _mockRepo.Setup(x => x.UpdateCategory(categoryToUpdate)).Returns(false);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
-        //    //Act
-        //    var result = controller.PutTblCategory(categoryId, categoryToUpdate);
+            //Act
+            var result = controller.PutCategory(categoryId, categoryToUpdate);
 
-        //    //Assert
-        //    result.Should().BeOfType<BadRequestResult>();
-        //}
+            //Assert
+            result.Should().BeOfType<BadRequestResult>();
+        }
 
-      
-        //[Test]
-        //public void DeleteCategory_WithExsitingCategory_returnsNoContent()
-        //{
-        //    //Arrange        
-        //    var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
-        //    mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
-        //    var controller = new CategoriesController(mockRepo.Object);
+        [Test]
+        public void DeleteCategory_WithExsitingCategory_returnsNoContent()
+        {
+            //Arrange        
+            var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
-        //    //Act
-        //    var result = controller.DeleteTblCategory(existingcategory.CategoryId);
+            _mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
-        //    //Assert
-        //    result.Should().BeEquivalentTo(result);
-        //}
+            //Act
+            var result = controller.DeleteCategory(existingcategory.CategoryId);
 
-        //[Test]
-        //public void DeleteCategory_WithExsitingCategoryIfNotDeleted_returnsNotFound()
-        //{
-        //    //Arrange        
-        //    var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
+            //Assert
+            result.Should().BeEquivalentTo(result);
+        }
 
-        //    mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
-        //    var controller = new CategoriesController(mockRepo.Object);
+        [Test]
+        public void DeleteCategory_WithExsitingCategoryIfNotDeleted_returnsNotFound()
+        {
+            //Arrange        
+            var existingcategory = new Category() { CategoryId = 1, CategoryName = "Clothing" };
 
-        //    //Act
-        //    var result = controller.DeleteTblCategory(existingcategory.CategoryId);
+            _mockRepo.Setup(x => x.GetCategoryById(1)).Returns(existingcategory);
+            var controller = new CategoriesController(_mockRepo.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = _httpContext
+                }
+            };
 
-        //    //Assert
-        //    //result.Should().BeEquivalentTo(NotFoundResult);
-        //    result.Should().BeOfType<NotFoundResult>();
-        //}
+            //Act
+            var result = controller.DeleteCategory(existingcategory.CategoryId);
+
+            //Assert
+            //result.Should().BeEquivalentTo(NotFoundResult);
+            result.Should().BeOfType<NotFoundResult>();
+        }
 
     }
 
