@@ -14,5 +14,10 @@ pipeline {
                 bat 'dotnet build'
             }
         }
+        stage('Test') {
+            steps {
+                bat 'dotnet test'
+            }
+        }
     }
 }
