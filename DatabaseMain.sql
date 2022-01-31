@@ -34,7 +34,7 @@ create table Categories(
 
 
 CREATE TABLE [UserProfile](
-	[UserId] [varchar](36) NOT NULL,
+	[UserId] [varchar](36) NOT NULL PRIMARY KEY,
 	[UserFirstName] [varchar](30) NULL,
 	[UserLastName] [varchar](30) NULL,
 	[CompanyName] [varchar](50) NULL,
