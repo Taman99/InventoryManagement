@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using IMServices.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-
+using IMServices.Entities;
 
 namespace IMServices.Context
 {
@@ -111,9 +110,14 @@ namespace IMServices.Context
 
             modelBuilder.Entity<UserProfile>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.UserId)
+                    .HasName("PK__UserProf__1788CC4CE882460D");
 
                 entity.ToTable("UserProfile");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CompanyName)
                     .HasMaxLength(50)
@@ -141,10 +145,6 @@ namespace IMServices.Context
 
                 entity.Property(e => e.UserFirstName)
                     .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(36)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UserLastName)
