@@ -12,6 +12,7 @@ using System.Security.Claims;
 
 namespace TestCategoryService
 {
+    //Test cases for category
     public class TestingCategoryService
     {
         private Mock<ICategoryRepository> _mockRepo;
